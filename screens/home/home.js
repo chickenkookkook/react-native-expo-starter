@@ -6,6 +6,7 @@ import Carousel from "react-native-snap-carousel";
 import ENTRIES1 from "../../static/entries";
 import SliderEntry from "../../components/home/SliderItem";
 import { sliderWidth, itemWidth } from "../../styles/global.style";
+import { ViewPropTypes } from "react-native";
 
 const SLIDER_1_FIRST_ITEM = 0;
 

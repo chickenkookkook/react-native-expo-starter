@@ -1,4 +1,4 @@
-import React, { store } from "react";
+import React from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { NativeBaseProvider } from "native-base";
