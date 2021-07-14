@@ -1,14 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import {
-  Input,
-  Box,
-  VStack,
-  Button,
-  Container,
-  Alert,
-  Stack,
-} from "native-base";
+import { Input, Box, VStack, Button, Alert, Stack } from "native-base";
 import {
   Image,
   SafeAreaView,
@@ -18,7 +10,6 @@ import {
   View,
 } from "react-native";
 import userAction from "../../store/user/userActions";
-import { style } from "styled-system";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -26,6 +17,10 @@ const Login = () => {
   const [valueUsername, setValueUsername] = React.useState("");
   const [valuePassword, setValuePassword] = React.useState("");
   const [showAlert, setShowAlert] = React.useState(false);
+  const [data, setData] = React.useState({
+    username: "",
+    password: "",
+  });
 
   const login = () => {
     if (valueUsername != "" && valuePassword != "") {
@@ -41,9 +36,6 @@ const Login = () => {
       setShowAlert(true);
     }
   };
-
-  const handleChangeUsername = (event) => setValueUsername(event.target.value);
-  const handleChangePassword = (event) => setValuePassword(event.target.value);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,7 +63,7 @@ const Login = () => {
               w="100%"
               placeholder="usrname"
               value={valueUsername}
-              onChange={handleChangeUsername}
+              onChangeText={(text) => setValueUsername(text)}
             />
           </Box>
           <Box>
@@ -81,7 +73,7 @@ const Login = () => {
               type="password"
               placeholder="password"
               value={valuePassword}
-              onChange={handleChangePassword}
+              onChangeText={(text) => setValuePassword(text)}
             />
           </Box>
           <Box>

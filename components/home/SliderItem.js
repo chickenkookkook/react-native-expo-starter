@@ -3,6 +3,7 @@ import { View, Image, TouchableOpacity, Linking, Platform } from "react-native";
 import PropTypes from "prop-types";
 import { ParallaxImage } from "react-native-snap-carousel";
 import styles from "../../styles/global.style";
+import ImageView from "react-native-image-view";
 
 export default class SliderEntry extends Component {
   static propTypes = {
@@ -11,6 +12,14 @@ export default class SliderEntry extends Component {
     parallax: PropTypes.bool,
     parallaxProps: PropTypes.object,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isImageViewVisible: false,
+    };
+  }
 
   get image() {
     const {
@@ -38,47 +47,57 @@ export default class SliderEntry extends Component {
     );
   }
 
-  goToLink() {
-    const {
-      data: { link },
-    } = this.props;
-
-    if (link != undefined) {
-      Linking.openURL(link);
-    } else {
+  openLink(id) {
+    if (id == 1) {
+      Linking.openURL("https://www.thelivingos.com/");
+    } else if (id == 2) {
       if (Platform.OS === "android") {
         Linking.openURL("google.navigation:q=100+101");
       } else {
         Linking.openURL("maps://app?saddr=100+101&daddr=100+102");
       }
+    } else if (id == 3) {
+      this.setState({
+        isImageViewVisible: true,
+      });
     }
   }
 
   render() {
-    let openLink;
     const {
-      data: { link },
+      data: { link, id },
     } = this.props;
 
-    if (link != undefined) {
-      openLink = link;
-    } else {
-      if (Platform.OS === "android") {
-        openLink = "google.navigation:q=100+101";
-      } else {
-        openLink = "maps://app?saddr=100+101&daddr=100+102";
-      }
-    }
+    const images = [
+      {
+        source: {
+          uri: "https://cdn.pixabay.com/photo/2017/08/17/10/47/paris-2650808_960_720.jpg",
+        },
+        width: 806,
+        height: 720,
+      },
+    ];
 
     return (
-      <TouchableOpacity
-        activeOpacity={1}
-        style={styles.slideInnerContainer}
-        onPress={() => Linking.openURL(openLink)}
-      >
-        <View style={styles.shadow} />
-        <View style={[styles.imageContainer]}>{this.image}</View>
-      </TouchableOpacity>
+      <View>
+        <ImageView
+          images={images}
+          imageIndex={0}
+          isVisible={this.state.isImageViewVisible}
+          onClose={() => this.setState({ isImageViewVisible: false })}
+          animationType="fade"
+        />
+        <TouchableOpacity
+          activeOpacity={1}
+          style={styles.slideInnerContainer}
+          onPress={() => {
+            this.openLink(id);
+          }}
+        >
+          <View style={styles.shadow} />
+          <View style={[styles.imageContainer]}>{this.image}</View>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
